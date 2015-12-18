@@ -66,12 +66,7 @@ router.get('/twitter/callback', passport.authenticate('twitter', {
 	}),
 	function(req, res) {
 		// Successful authentication, redirect home.
-		req.session.HOLLA = "ich bin da";
-		console.log('* Twitter successfull, req.user: ', req.user);
-		console.log('* Twitter successfull, req.session: ', req.session);
-		console.log('* Authentication status: ' + req.isAuthenticated());
-		console.log('* Passport user: ' + req.session.passport);
-		res.redirect('/success');
+		res.redirect('/');
 	});
 
 module.exports = router;

@@ -3,12 +3,7 @@ var passport = require('passport');
 var router = express.Router();
 
 router.get('/', function(req, res) {
-	var vm = {
-		username: req.user ? req.user.firstName + " " + req.user.lastName : null
-	};
-	console.log('* GET /: Sending vm: ', vm );
-	console.log('* Authentication status: ' + req.isAuthenticated());
-	// console.log('* Passport user: ' + req.session.passport);
+	var vm = { user: req.user ? req.user.firstName : null };
 	res.render('index', vm);
 }); // Root
 

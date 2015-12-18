@@ -1,32 +1,32 @@
 module.exports = function (grunt) {
 	grunt.initConfig({
 		jshint: {
-			files: ['*.js', 'lib/*.js', 'test/*.js'],
+			files: ['*.js', 'client/**/*.js', 'server/**/*.js', 'test/*.js', '!client/build/*.js'],
 			options: { esnext: true, globals: { jQuery: true }}
 		},
 		less: {
 			production: {
-				files: { 'public/css/style.css': ['less/*.less'] }
+				files: { 'client/build/app-less.css': ['less/*.less'] }
 			}
 		},
 		autoprefixer: {
 			single_file: {
-				src: 'client/css/style.css', dest: 'client/css/style.css'
+				src: 'client/css/app.css', dest: 'client/build/app.css'
 			}
 		},
 		browserify: {
 			client: {
-				src: ['client/**/*.js', '!client/bundle.js'],
-				dest: 'client/bundle.js'
+				src: ['client/**/*.js', '!client/build/*.js'],
+				dest: 'client/build/bundle.js'
 			}
 		},
 		watch: {
 			css: {
-				files: ['less/*.less'],
+				files: ['less/*.less', 'client/css/*.css'],
 				tasks: ['css']
 			},
 			js: {
-				files: ['*.js', 'client/**/*.*', 'server/**/*.*', '!client/bundle.js'],
+				files: ['*.js', 'client/**/*.*', 'server/**/*.*', '!client/build/*.js'],
 				tasks: ['jshint', 'browserify']
 			}
 		}

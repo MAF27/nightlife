@@ -30,14 +30,13 @@ app.use(exprSession({ secret: 'keyboard catandmouse', resave: true, saveUninitia
 
 // Configure Passport Authentication
 passportConfig();
-// Initialize Passport and restore authentication state, if any, from the session.
 app.use(passport.initialize());
 app.use(passport.session());
 
 // ROUTING
 app.use('/', routes);
 app.use('/users', users);
-app.use('/client', express.static(__dirname + '/client'));
+app.use(express.static(__dirname + '/client'));
 
 var server = http.createServer(app);
 server.listen(3000, function() {

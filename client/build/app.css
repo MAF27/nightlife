@@ -1,0 +1,134 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic|Roboto:400,100,300,500,700,900,100italic,300italic,400italic,700italic,900italic,500italic);
+
+video#bgvid { position: fixed; top: 50%; left: 50%;
+    min-width: 100%; min-height: 100%; width: auto; height: auto;
+    z-index: -100; -webkit-transform: translateX(-50%) translateY(-50%); transform: translateX(-50%) translateY(-50%);
+    background: url(../assets/Night-BBQ.jpg) no-repeat; background-size: cover; }
+
+/* Global Styling */
+html, body { height: 100%; color: #333; padding: 0; font-family: Lato, sans-serif; font-size: 16px; }
+#page { position: relative; margin: 0 auto; max-width: 1280px; height: 92%; overflow: scroll; }
+
+a { text-decoration: none; color: #333; }
+a:hover { text-decoration: underline; }
+a.btn:hover { text-decoration: none; }
+h1 { font-size: 2.5em; font-weight: 700; margin: 0 0 0.5em 0; }
+*, *::before, *::after { box-sizing: border-box; }
+.ng-view { height: 100%; }
+
+/* FORM STYLING */
+input { background-color: white; padding: 7px; border: 1px solid #ccc; border-radius: 3px; font-size: 1em; margin: 0px; }
+input:focus { outline: lightblue solid thin; }
+::-webkit-input-placeholder, :-ms-input-placeholder, ::-moz-placeholder, :-moz-placeholder{ font-weight: 100; }
+
+button, .btn { color: #fff; background-color: #00882B; font-weight: 700; font-size: 1em; padding: 6px 10px 6px 10px; text-shadow: none; border: none;  border-radius: 3px; cursor: pointer; }
+button:focus { outline: lightblue solid thin; }
+.btn-right { float: right; background-color: #51A7F9; color: white; font-size: 0.9em; margin-top: -55px; padding: 6px;
+    -webkit-transition: background-color 0.5s;
+            transition: background-color 0.5s; cursor: pointer;}
+
+input[type=text] { width: 180px; font-weight: 600; color: #333; }
+
+input[type=submit] { background-color: #6d0911; color: white; cursor: pointer; padding-left: 10px; padding-right: 10px; font-weight: 700; font-size: 1em;
+    -webkit-transition: background-color 0.5s;
+            transition: background-color 0.5s; }
+input[type=submit]:hover { background-color: rgb(253, 127, 132); }
+
+
+/* Header */
+/*header { position: relative; max-width: 1280px; height: 380px; background: #fff url('../img/clockwork-1280.jpg') no-repeat center center; }*/
+
+header .logo { z-index: 1; position: absolute; font-size: 2.8em; font-weight: 700; text-decoration: none; color: white;
+    top: 37px; left: 15px; }
+
+/* Navbar */
+nav { position: absolute; top: 30px; left: 0; width: 100%; padding: 0 0 0 0; background-color: rgba(0,0,0,.55); color: white; }
+nav a:hover { text-decoration: none; }
+nav::after { content: ''; display: block; clear: both; }
+
+nav ul { list-style: none; margin: 0; padding: 0; }
+nav > ul { padding-left: 350px; }
+nav > ul > li { float: right; }
+
+nav ul li a { display: inline-block; text-decoration: none; padding: 25px 20px; cursor: pointer; color: white; }
+
+nav ul li a:visited { color: white; }
+nav ul li a:hover { background-color: #6d0911; }
+
+/* ALL Sections */
+section { padding: 0 30px; }
+section::after { content:''; display: block; clear: both; }
+
+/* Login Section */
+section.login { position: absolute; top: 160px; margin: 0 auto; width: 650px; padding-top: 15px; }
+section.login p { margin-top: 0.5em; font-size: 1em; }
+
+/* Signup Section */
+section.signup { margin: 0 auto; width: 450px; padding-top: 15px; }
+section.signup form { margin: 0 auto; width: 300px; padding-top: 15px; }
+section.signup input[type=text] { margin-bottom: 5px; widht: 100%; }
+section.signup input[type=submit] { background-color: #51A7F9; margin-top: 15px; width: 215px; display: block; }
+
+/* Main Section */
+section.main { position: absolute; top: 160px; z-index: 2; color: #ddd; }
+section.main a { color: #777; }
+section.main a:hover { text-decoration: none; }
+section.main aside { width: 33%; float: left; text-align: center; }
+section.main aside .content { border: 1px solid #aaa; border-radius: 5px; margin: 50px; padding: 30px; background-color: #fff; }
+section.main aside .content::before { font-family: FontAwesome; font-size: 4em; color: rgb(206, 100, 20); }
+section.main aside .content.create::before { content: "\f059"; }
+section.main aside .content.manage::before { content: "\f0f1"; }
+section.main aside .content.settings::before { content: "\f0ad"; }
+section.main input[type=text] { width: 900px; }
+
+/* Create Poll Section */
+section.create { margin: 0 auto; width: 650px; padding-top: 15px; }
+section.create input[type=text] { margin-bottom: 5px; width: 400px; }
+section.create input[type=submit] { margin-top: 10px; }
+section.create label { width: 90px; display: inline-block;}
+section.create a { display: block; }
+section.create a.btn { display: inline-block; margin-top: 15px;}
+
+/* Manage Poll Section */
+section.manage { margin: 0 auto; width: 90%; padding-top: 15px; }
+section.manage span { margin-left: 15px; }
+section.manage div.buttons { margin-top: 5px; }
+section.manage .delete { background-color: #6d0911; -webkit-transition: background-color 0.5s; transition: background-color 0.5s; }
+section.manage .delete:hover { background-color: rgb(253, 127, 132); }
+section.manage ul { list-style: none; margin: 0 0 7px 0; padding-left: 0;}
+
+/* Vote Section */
+section.vote { margin: 0 auto; width: 80%; padding-top: 15px; }
+section.vote input[type=submit] { margin-top: 10px; }
+section.vote button { display: block; margin: 0 auto; width: 50%; padding: 12px 15px; border-radius: 15px; font-size: 1.2em;
+    -webkit-transition: background-color 0.5s;
+            transition: background-color 0.5s; }
+section.vote button:hover { background-color: #10A920; }
+
+/* Attribution: Checkbox syling courtesy of http://codersblock.com/blog/checkbox-trickery-with-css/ */
+
+section.vote input[type=checkbox] { position: absolute; left: -9999px; }
+
+section.vote label { display: block; position: relative; margin: 15px; padding: 15px 30px 15px 62px; border: 2px solid #fff; border-radius: 100px;
+  color: #333; background-color: #E6E6E6; box-shadow: 0 0 10px rgba(0, 0, 0, .2); white-space: nowrap; cursor: pointer; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
+  -webkit-transition: background-color .2s, box-shadow .2s;
+          transition: background-color .2s, box-shadow .2s; }
+
+section.vote label::before { content: ''; display: block; position: absolute; top: 10px; bottom: 10px; left: 10px; width: 32px; border: 3px solid #fff;
+    border-radius: 50%; -webkit-transition: background-color .2s; transition: background-color .2s; }
+
+section.vote label:hover, input:focus + label { box-shadow: 0 0 20px rgba(0, 0, 0, .6); }
+section.vote input[type=checkbox]:checked + label { background-color: #9A3900; color: #fff; }
+section.vote input[type=checkbox]:checked + label::before { background-color: #fff; }
+
+/* Stats Section */
+section.stats { margin: 0 auto; width: 80%; height: 100%; padding-top: 15px; }
+section.stats #chartdiv { height: 400px; }
+
+/* Profile Section */
+section.profile a.btn { display: inline-block; margin-top: 15px;}
+section.profile div { margin-bottom: 5px;}
+
+/* Footer */
+footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 1280px; background-color: #fff; height: 50px; margin: 0 auto;
+    border-top: 1px solid darkgrey; text-align: center; font-size: 0.9em; }
