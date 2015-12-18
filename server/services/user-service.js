@@ -17,7 +17,7 @@ exports.addUser = function(user, next) {
 
     console.log('addUser: newUser: ', newUser);
     newUser.save(function(err) {
-      console.log('>>> After adding user: err: ', err);
+      console.log('* After adding user: err: ', err);
       if (err) {
         return next(err);
       }

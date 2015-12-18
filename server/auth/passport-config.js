@@ -35,6 +35,7 @@ module.exports = function() {
 		},
 		function(token, tokenSecrect, profile, done) {
 			process.nextTick(function() {
+// console.log('* Twitter profile:', profile);
 				userService.findUser(profile.username, function(err, user) {
 
 					// if there is an error connecting to the database, stop everything and return error
@@ -43,6 +44,7 @@ module.exports = function() {
 
 					// if the user is found then log them in
 					if (user) {
+console.log('* Found user for Twitter: ', user);
 						return done(null, user); // user found, return that user
 					} else {
 						// if there is no user, create them
@@ -53,7 +55,7 @@ module.exports = function() {
 							'lastName': ' ', // cannot be empty, for validation
 							'password': ' '  // cannot be empty, for validation
 						};
-
+console.log('* Added new user for Twitter: ', newUser);
 						// save our user into the database
 						userService.addUser(newUser, function(err) {
 							if (err)
@@ -66,18 +68,22 @@ module.exports = function() {
 			});
 
 			return (done(null, {
-				id: 1,
-				username: profile.displayName,
+				username: profile.username,
 				firstName: profile.displayName
 			}));
 		}));
 
 	passport.serializeUser(function(user, next) {
+console.log('* Serialize: user: ', user);
+console.log('* Serialize: user._id: ', user._id);
+// console.log('* Session: ', req.session);
 		next(null, user.username);
 	});
 
 	passport.deserializeUser(function(username, next) {
+console.log('* Deserialize: Looking for <' + username + '>');
 		userService.findUser(username, function(err, user) {
+console.log('* Deserialize: Returning user: ', user);
 			next(err, user);
 		});
 	});

@@ -60,17 +60,18 @@ router.get('/profile', function(req, res, next) {
 	res.render('profile', vm);
 });
 
-var checkit = function(req, res, next) {
-	console.log('Nach Auth. User: req: ', req.body);
-	console.log('Nach Auth. User: res: ', res.body);
-	next();
-};
-
 router.get('/twitter', passport.authenticate('twitter'));
-router.get('/twitter/callback', checkit,
-	passport.authenticate('twitter', {
-		successRedirect: '/',
+router.get('/twitter/callback', passport.authenticate('twitter', {
 		failureRedirect: '/users/login'
-	}));
+	}),
+	function(req, res) {
+		// Successful authentication, redirect home.
+		req.session.HOLLA = "ich bin da";
+		console.log('* Twitter successfull, req.user: ', req.user);
+		console.log('* Twitter successfull, req.session: ', req.session);
+		console.log('* Authentication status: ' + req.isAuthenticated());
+		console.log('* Passport user: ' + req.session.passport);
+		res.redirect('/success');
+	});
 
 module.exports = router;
