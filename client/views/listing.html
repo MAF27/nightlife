@@ -1,0 +1,11 @@
+<div class="container-fluid">
+	<h1>Restaurants in Zurich</h1>
+
+	<div ng-hide="restaurants">Loading ...</div>
+	<ul ng-show="restaurants">
+		<li ng-repeat="restaurant in restaurants">
+			<button class="btn btn-success" ng-click="authenticate();">Go</button>{{restaurant.name}}
+		</li>
+	</ul>
+
+</div>

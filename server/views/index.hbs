@@ -1,9 +1,18 @@
 <section class="main">
 	{{#unless user}}
-	<p>Authenticate to see who's going where and add your voice.</p>
+		<p>Authenticate to see who's going where and add your voice.</p>
 	{{/unless}}
-	<form id="form_id" action="index.html" method="post">
+	<form action="index.html" id="form_id" method="post">
 		<p>Where are you at?</p>
-		<input type="text" name="location" id="location" value="">
+		<input id="location" name="location" type="text" value="">
 	</form>
 </section>
+
+<section class="listing" ng-app="nightlife">
+	<p style="color: white;">
+		Here comes Angular
+	</p>
+	<div class="ng-container" ng-view></div>
+</section>
+
+<script src="/build/bundle.js" type="text/javascript"></script>

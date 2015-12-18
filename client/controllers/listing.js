@@ -1,7 +1,4 @@
-var app = angular.module('nightlife');
-
-app.controller('yelpController', ['$scope', '$resource', function($scope, $resource) {
-	// var Meetup = $resource('/api/meetups');
+module.exports = function($scope) {
 	var yelp = require("node-yelp");
 
 	var client = yelp.createClient({
@@ -18,6 +15,7 @@ app.controller('yelpController', ['$scope', '$resource', function($scope, $resou
 		}
 	});
 
+	console.log('* Client created, searching ...');
 	client.search({
 			terms: "restaurants",
 			location: "Zurich"
@@ -29,9 +27,4 @@ app.controller('yelpController', ['$scope', '$resource', function($scope, $resou
 			$scope.$apply();
 		});
 
-		$scope.authenticate = function() {
-			console.log('Auth');
-			passport.authenticate('twitter');
-		};
-
-}]);
+};

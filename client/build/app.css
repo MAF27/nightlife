@@ -81,49 +81,9 @@ section.main aside .content.manage::before { content: "\f0f1"; }
 section.main aside .content.settings::before { content: "\f0ad"; }
 section.main input[type=text] { width: 900px; }
 
-/* Create Poll Section */
-section.create { margin: 0 auto; width: 650px; padding-top: 15px; }
-section.create input[type=text] { margin-bottom: 5px; width: 400px; }
-section.create input[type=submit] { margin-top: 10px; }
-section.create label { width: 90px; display: inline-block;}
-section.create a { display: block; }
-section.create a.btn { display: inline-block; margin-top: 15px;}
+/* Listing Section */
+section.listing { position: absolute; top: 340px; z-index: 2; color: #ddd; }
 
-/* Manage Poll Section */
-section.manage { margin: 0 auto; width: 90%; padding-top: 15px; }
-section.manage span { margin-left: 15px; }
-section.manage div.buttons { margin-top: 5px; }
-section.manage .delete { background-color: #6d0911; -webkit-transition: background-color 0.5s; transition: background-color 0.5s; }
-section.manage .delete:hover { background-color: rgb(253, 127, 132); }
-section.manage ul { list-style: none; margin: 0 0 7px 0; padding-left: 0;}
-
-/* Vote Section */
-section.vote { margin: 0 auto; width: 80%; padding-top: 15px; }
-section.vote input[type=submit] { margin-top: 10px; }
-section.vote button { display: block; margin: 0 auto; width: 50%; padding: 12px 15px; border-radius: 15px; font-size: 1.2em;
-    -webkit-transition: background-color 0.5s;
-            transition: background-color 0.5s; }
-section.vote button:hover { background-color: #10A920; }
-
-/* Attribution: Checkbox syling courtesy of http://codersblock.com/blog/checkbox-trickery-with-css/ */
-
-section.vote input[type=checkbox] { position: absolute; left: -9999px; }
-
-section.vote label { display: block; position: relative; margin: 15px; padding: 15px 30px 15px 62px; border: 2px solid #fff; border-radius: 100px;
-  color: #333; background-color: #E6E6E6; box-shadow: 0 0 10px rgba(0, 0, 0, .2); white-space: nowrap; cursor: pointer; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
-  -webkit-transition: background-color .2s, box-shadow .2s;
-          transition: background-color .2s, box-shadow .2s; }
-
-section.vote label::before { content: ''; display: block; position: absolute; top: 10px; bottom: 10px; left: 10px; width: 32px; border: 3px solid #fff;
-    border-radius: 50%; -webkit-transition: background-color .2s; transition: background-color .2s; }
-
-section.vote label:hover, input:focus + label { box-shadow: 0 0 20px rgba(0, 0, 0, .6); }
-section.vote input[type=checkbox]:checked + label { background-color: #9A3900; color: #fff; }
-section.vote input[type=checkbox]:checked + label::before { background-color: #fff; }
-
-/* Stats Section */
-section.stats { margin: 0 auto; width: 80%; height: 100%; padding-top: 15px; }
-section.stats #chartdiv { height: 400px; }
 
 /* Profile Section */
 section.profile a.btn { display: inline-block; margin-top: 15px;}
