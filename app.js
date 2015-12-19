@@ -8,8 +8,9 @@ var cookieParser = require('cookie-parser');
 var	passport 		= require('passport');
 var passportConfig = require(__dirname + "/server/auth/passport-config");
 var mongoose 		= require('mongoose');
-var users 			= require('./server/routes/users');
 var routes 			= require('./server/routes/index');
+var users 			= require('./server/routes/users');
+var api 				= require('./server/routes/api');
 
 var	app = express();
 
@@ -36,6 +37,7 @@ app.use(passport.session());
 // ROUTING
 app.use('/', routes);
 app.use('/users', users);
+app.use('/api', api);
 app.use(express.static(__dirname + '/client'));
 
 var server = http.createServer(app);

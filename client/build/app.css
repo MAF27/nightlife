@@ -3,7 +3,8 @@
 video#bgvid { position: fixed; top: 50%; left: 50%;
     min-width: 100%; min-height: 100%; width: auto; height: auto;
     z-index: -100; -webkit-transform: translateX(-50%) translateY(-50%); transform: translateX(-50%) translateY(-50%);
-    background: url(../assets/Night-BBQ.jpg) no-repeat; background-size: cover; }
+    /*background: url(../assets/Night-BBQ.jpg) no-repeat; background-size: cover; */
+  }
 
 /* Global Styling */
 html, body { height: 100%; color: #333; padding: 0; font-family: Lato, sans-serif; font-size: 16px; }
@@ -19,7 +20,7 @@ h1 { font-size: 2.5em; font-weight: 700; margin: 0 0 0.5em 0; }
 /* FORM STYLING */
 input { background-color: white; padding: 7px; border: 1px solid #ccc; border-radius: 3px; font-size: 1em; margin: 0px; }
 input:focus { outline: lightblue solid thin; }
-::-webkit-input-placeholder, :-ms-input-placeholder, ::-moz-placeholder, :-moz-placeholder{ font-weight: 100; }
+::-webkit-input-placeholder, :-ms-input-placeholder, ::-moz-placeholder, :-moz-placeholder { font-weight: 100; }
 
 button, .btn { color: #fff; background-color: #00882B; font-weight: 700; font-size: 1em; padding: 6px 10px 6px 10px; text-shadow: none; border: none;  border-radius: 3px; cursor: pointer; }
 button:focus { outline: lightblue solid thin; }
@@ -34,10 +35,8 @@ input[type=submit] { background-color: #6d0911; color: white; cursor: pointer; p
             transition: background-color 0.5s; }
 input[type=submit]:hover { background-color: rgb(253, 127, 132); }
 
-
 /* Header */
 /*header { position: relative; max-width: 1280px; height: 380px; background: #fff url('../img/clockwork-1280.jpg') no-repeat center center; }*/
-
 header .logo { z-index: 1; position: absolute; font-size: 2.8em; font-weight: 700; text-decoration: none; color: white;
     top: 37px; left: 15px; }
 
@@ -58,6 +57,15 @@ nav ul li a:hover { background-color: #6d0911; }
 /* ALL Sections */
 section { padding: 0 30px; }
 section::after { content:''; display: block; clear: both; }
+
+/* Listing Section */
+section.listing { position: absolute; top: 280px; z-index: 2; color: #ddd; }
+section.listing ul { list-style: none; margin: 0; padding: 0;}
+section.listing ul li { border-bottom: solid 1px #eee; color: #3254a5; background-color: rgba(255, 255, 255, 0.5); padding: 0 10px 0 10px; }
+section.listing ul li p { display: inline-block; width: 500px; }
+section.listing ul li button { display: inline-block; width: 50px; }
+/*section.listing .btn-right { left: 500px; }*/
+/*section.listing li::after { content: ''; display: block; clear: both; }*/
 
 /* Login Section */
 section.login { position: absolute; top: 160px; margin: 0 auto; width: 650px; padding-top: 15px; }
@@ -80,9 +88,6 @@ section.main aside .content.create::before { content: "\f059"; }
 section.main aside .content.manage::before { content: "\f0f1"; }
 section.main aside .content.settings::before { content: "\f0ad"; }
 section.main input[type=text] { width: 900px; }
-
-/* Listing Section */
-section.listing { position: absolute; top: 340px; z-index: 2; color: #ddd; }
 
 
 /* Profile Section */

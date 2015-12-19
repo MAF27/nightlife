@@ -11,7 +11,7 @@ module.exports = function (grunt) {
 		},
 		autoprefixer: {
 			single_file: {
-				src: 'client/css/app.css', dest: 'client/build/app.css'
+				src: 'client/css/*.css', dest: 'client/build/app.css'
 			}
 		},
 		browserify: {
@@ -22,11 +22,11 @@ module.exports = function (grunt) {
 		},
 		watch: {
 			css: {
-				files: ['less/*.less', 'client/css/*.css'],
+				files: ['client/css/*.css'],
 				tasks: ['css']
 			},
 			js: {
-				files: ['*.js', 'client/**/*.*', 'server/**/*.*', '!client/build/*.js'],
+				files: ['*.js', 'client/**/*.js', 'server/**/*.js', '!client/build/*.js'],
 				tasks: ['jshint', 'browserify']
 			}
 		}

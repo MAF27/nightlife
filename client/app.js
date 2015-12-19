@@ -12,5 +12,6 @@
 	require('./controllers');
 	require('./lib');
 	require('./models');
+	require('./services');
 
 }());
