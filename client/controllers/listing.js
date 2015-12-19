@@ -1,5 +1,6 @@
 var app = require('angular')
 	.module('nightlife');
+var biz = require('../services/mock.js');
 
 app.controller('ListingCtrl', ListingCtrl);
 
@@ -8,13 +9,7 @@ ListingCtrl.$inject = ['$scope', 'api', '$location'];
 function ListingCtrl($scope, api, $location) {
 	var yelp = require("node-yelp");
 
-	$scope.restaurants = [{
-		name: 'Widder Bar'
-	}, {
-		name: 'Isebähnli'
-	}, {
-		name: 'Old Crow'
-	}];
+	$scope.restaurants = biz;
 
 	api.getUser()
 		.then(function(user) {

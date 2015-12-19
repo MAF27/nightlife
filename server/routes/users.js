@@ -48,7 +48,7 @@ router.post('/login', passport.authenticate('local', {
 
 router.get('/logout', function(req, res, next) {
 	req.logout();
-	res.redirect('/users/login');
+	res.redirect('/');
 });
 
 // router.get('/profile', restrict, function(req, res, next) {

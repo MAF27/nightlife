@@ -1,5 +1,28 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic|Roboto:400,100,300,500,700,900,100italic,300italic,400italic,700italic,900italic,500italic);
 
+/* ALL Sections */
+section { padding: 0 30px; width: 100%; }
+section::after { content:''; display: block; clear: both; }
+
+/* Section: MAIN */
+section.main { position: absolute; top: 160px; z-index: 2; color: #ddd; }
+section.main a { color: #777; }
+section.main p { text-align: center; }
+section.main input[type=text] { width: 100%; }
+
+/* Section: LISTING */
+section.listing { position: absolute; top: 280px; z-index: 2; color: #ddd; }
+section.listing ul { list-style: none; margin: 0; padding: 0;}
+section.listing ul li { border-bottom: solid 1px #eee; color: #3254a5; background-color: rgba(255, 255, 255, 0.5);
+  padding: 0 10px 0 10px; height: 81px; position: relative; }
+section.listing ul li p { display: inline-block; color: white; }
+section.listing ul li p.r-img { padding: 5px; margin: 0; }
+section.listing ul li p.r-name { position: absolute; top: -12px; left: 10%; font-size: 1.2em; font-weight: 700; color: #3254a5; }
+section.listing ul li p.r-desc { position: absolute; top: 16px; left: 10%; width: 50%; color: #3254a5; font-size: 0.9em; }
+section.listing ul li p.going { position: absolute; top: 6px; left: 60%; padding: 10px;
+  border: solid 1px #999; border-radius: 4px; background-color: rgba(50, 84, 165, 0.75); color: rgba(245, 245, 245, 0.7); }
+section.listing ul li button { position: absolute; top: 24px; left: 92%; display: inline-block; width: 50px; }
+
 video#bgvid { position: fixed; top: 50%; left: 50%;
     min-width: 100%; min-height: 100%; width: auto; height: auto;
     z-index: -100; -webkit-transform: translateX(-50%) translateY(-50%); transform: translateX(-50%) translateY(-50%);
@@ -8,7 +31,7 @@ video#bgvid { position: fixed; top: 50%; left: 50%;
 
 /* Global Styling */
 html, body { height: 100%; color: #333; padding: 0; font-family: Lato, sans-serif; font-size: 16px; }
-#page { position: relative; margin: 0 auto; max-width: 1280px; height: 92%; overflow: scroll; }
+#page { position: relative; margin: 0 auto; max-width: 1180px; height: 92%; overflow: scroll; }
 
 a { text-decoration: none; color: #333; }
 a:hover { text-decoration: underline; }
@@ -54,19 +77,6 @@ nav ul li a { display: inline-block; text-decoration: none; padding: 25px 20px; 
 nav ul li a:visited { color: white; }
 nav ul li a:hover { background-color: #6d0911; }
 
-/* ALL Sections */
-section { padding: 0 30px; }
-section::after { content:''; display: block; clear: both; }
-
-/* Listing Section */
-section.listing { position: absolute; top: 280px; z-index: 2; color: #ddd; }
-section.listing ul { list-style: none; margin: 0; padding: 0;}
-section.listing ul li { border-bottom: solid 1px #eee; color: #3254a5; background-color: rgba(255, 255, 255, 0.5); padding: 0 10px 0 10px; }
-section.listing ul li p { display: inline-block; width: 500px; }
-section.listing ul li button { display: inline-block; width: 50px; }
-/*section.listing .btn-right { left: 500px; }*/
-/*section.listing li::after { content: ''; display: block; clear: both; }*/
-
 /* Login Section */
 section.login { position: absolute; top: 160px; margin: 0 auto; width: 650px; padding-top: 15px; }
 section.login p { margin-top: 0.5em; font-size: 1em; }
@@ -76,19 +86,6 @@ section.signup { margin: 0 auto; width: 450px; padding-top: 15px; }
 section.signup form { margin: 0 auto; width: 300px; padding-top: 15px; }
 section.signup input[type=text] { margin-bottom: 5px; widht: 100%; }
 section.signup input[type=submit] { background-color: #51A7F9; margin-top: 15px; width: 215px; display: block; }
-
-/* Main Section */
-section.main { position: absolute; top: 160px; z-index: 2; color: #ddd; }
-section.main a { color: #777; }
-section.main a:hover { text-decoration: none; }
-section.main aside { width: 33%; float: left; text-align: center; }
-section.main aside .content { border: 1px solid #aaa; border-radius: 5px; margin: 50px; padding: 30px; background-color: #fff; }
-section.main aside .content::before { font-family: FontAwesome; font-size: 4em; color: rgb(206, 100, 20); }
-section.main aside .content.create::before { content: "\f059"; }
-section.main aside .content.manage::before { content: "\f0f1"; }
-section.main aside .content.settings::before { content: "\f0ad"; }
-section.main input[type=text] { width: 900px; }
-
 
 /* Profile Section */
 section.profile a.btn { display: inline-block; margin-top: 15px;}

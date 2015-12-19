@@ -1,10 +1,17 @@
 <div>
 	<h1>Restaurants in Zurich</h1>
+	<p ng-hide="user">Authenticate to see who's going where and add your voice.</p>
 
 	<div ng-hide="restaurants">Loading ...</div>
 	<ul ng-show="restaurants">
 		<li ng-repeat="restaurant in restaurants">
-			<p>{{restaurant.name}}</p>
+			<p class="r-img">
+				<img src="{{restaurant.image_url}}" width="70px" height="70px" alt="Delicious" /> </p>
+				<!-- <img src="http://lorempixel.com/70/70/food" alt="Delicious" /> </p> -->
+			<p class="r-name">{{restaurant.name}}</p>
+			<p class="r-desc">{{restaurant.snippet_text}}</p>
+			<!-- <p class="r-desc">A great little restaurant with old world charm that will take your socks of, literally.</p> -->
+			<p class="going" ng-show="user">Rahel, Vreni and 2 others are going</p>
 			<button ng-show="user" class="" ng-click="nl-go();">Go</button>
 		</li>
 	</ul>
