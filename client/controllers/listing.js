@@ -1,5 +1,6 @@
 var app = require('angular')
 	.module('nightlife');
+var yelp = require("node-yelp");
 var biz = require('../services/mockbern.js');
 var util = require('../lib/util');
 
@@ -8,15 +9,45 @@ app.controller('ListingCtrl', ListingCtrl);
 ListingCtrl.$inject = ['$scope', 'api', '$location', '$http', '$rootScope'];
 
 function ListingCtrl($scope, api, $location, $http, $rootScope) {
-	var yelp = require("node-yelp");
 
-	$scope.restaurants = biz;
+	// $scope.restaurants = biz; // MOCKING
 	$http.get('/api/get-user/')
 		.then(function(user) {
 			$rootScope.user = user.data;
-			// Populate people going, if logged in
-			$scope.setGoings();
 		});
+
+	$scope.submitSearch = function() {
+		var client = yelp.createClient({
+			oauth: {
+				consumer_key: '6SZMMg4wFSxn1xo3wBP8AQ',
+				consumer_secret: 'BpZKq_rIQAL9upKUcAEpwsk0v9s',
+				token: 'dDmM1PHNtnwDS8Xw4ozmLydtLctCZYC9',
+				token_secret: 'nGdxlxllpfmaB5WrwGTI6qhUE3c',
+			},
+
+			// Optional settings:
+			httpClient: {
+				maxSockets: 25 // ~> Default is 10
+			}
+		});
+
+		console.log('* Client created, searching ...');
+		client.search({
+				terms: "bars",
+				location: $scope.location
+			})
+			.then(function(data) {
+				console.log(data.businesses);
+				$scope.restaurants = data.businesses;
+				$scope.$apply();
+				// Populate people going, if logged in
+				$scope.setGoings();
+			});
+		// util.getRestForLoc($scope.location)
+		// 	.then(function(r) {
+		// 		$rootScope.restaurants = r;
+		// 	});
+	};
 
 	$scope.handleButton = function(restaurant) {
 		// If current user is going, delete going
@@ -46,12 +77,12 @@ function ListingCtrl($scope, api, $location, $http, $rootScope) {
 		} // else
 	};
 
-	$scope._setG = function(goings, user) {
+	$scope._setG = function(goings) {
 		if (goings.data.length > 0) {
 			// Find index of restaurant being added to
-			var el = util.getElement(goings.data[0].rest_id, biz);
+			var el = util.getElement(goings.data[0].rest_id, $scope.restaurants);
 			// Initialize array for people going
-			biz[el].goings = [];
+			$scope.restaurants[el].goings = [];
 			// Find people going and insert them into array
 			var fCurrentGoing = false;
 			for (var i = 0; i < goings.data.length; i++) {
@@ -60,22 +91,23 @@ function ListingCtrl($scope, api, $location, $http, $rootScope) {
 					fCurrentGoing = true;
 				} else {
 					// Otherwise add name of others to array
-					biz[el].goings.push({
+					$scope.restaurants[el].goings.push({
 						user_id: goings.data[i].user_id,
 						user_firstName: goings.data[i].user_firstName
 					});
 				} // else
-				biz[el].currentGoing = fCurrentGoing;
+				$scope.restaurants[el].currentGoing = fCurrentGoing;
 			} // for
 		}
 	};
 
 	$scope.setGoings = function() {
 		if ($rootScope.user) {
-			for (var i = 0; i < biz.length; i++) {
-				$http.get('/api/get-goings/' + biz[i].id)
+			for (var i = 0; i < $scope.restaurants.length; i++) {
+				$http.get('/api/get-goings/' + $scope.restaurants[i].id)
 					.then($scope._setG);
-			}
+			} // for
+			$scope.$apply();
 		}
 	};
 
@@ -91,32 +123,4 @@ function ListingCtrl($scope, api, $location, $http, $rootScope) {
 		return util.parseGoings(goings, fCurrentGoing);
 	};
 
-
-	/*
-		var client = yelp.createClient({
-			oauth: {
-				consumer_key: '6SZMMg4wFSxn1xo3wBP8AQ',
-				consumer_secret: 'BpZKq_rIQAL9upKUcAEpwsk0v9s',
-				token: 'dDmM1PHNtnwDS8Xw4ozmLydtLctCZYC9',
-				token_secret: 'nGdxlxllpfmaB5WrwGTI6qhUE3c',
-			},
-
-			// Optional settings:
-			httpClient: {
-				maxSockets: 25 // ~> Default is 10
-			}
-		});
-
-		console.log('* Client created, searching ...');
-		client.search({
-				terms: "restaurants",
-				location: "Zurich"
-			})
-			.then(function(data) {
-				console.log(data.businesses);
-				$scope.quak = 'Es ist zum Quaken';
-				$scope.restaurants = data.businesses;
-				$scope.$apply();
-			});
-	*/
 }

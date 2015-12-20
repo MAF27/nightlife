@@ -1,5 +1,13 @@
-<div>
-	<h1>Restaurants in Zurich</h1>
+<div id="search">
+	<form ng-submit="submitSearch();">
+		<h3>Where are you at?</h3>
+		<input type="text" placeholder="Enter your location ..." autofocus="true" ng-model="location">
+	</form>
+	<!-- <p>Restaus: {{restaurants.length}}, Location: {{location}}</p> -->
+</div>
+
+<div ng-show="restaurants">
+	<h1>Bars in {{location}}</h1>
 	<p ng-hide="user">Authenticate to see who's going where and add your voice.</p>
 
 	<div ng-hide="restaurants">Loading ...</div>

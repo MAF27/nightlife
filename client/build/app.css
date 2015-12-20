@@ -4,14 +4,14 @@
 section { padding: 0 30px; width: 100%; }
 section::after { content:''; display: block; clear: both; }
 
-/* Section: MAIN */
-section.main { position: absolute; top: 160px; z-index: 2; color: #ddd; }
-section.main a { color: #777; }
-section.main p { text-align: center; }
-section.main input[type=text] { width: 100%; }
-
 /* Section: LISTING */
-section.listing { position: absolute; top: 280px; z-index: 2; color: #ddd; }
+/* Sub-Div Search */
+section.listing #search { position: absolute; top: -80px; z-index: 2; color: #ddd; width: 100%; }
+section.listing #search a { color: #777; }
+section.listing #search h3 { display: inline-block; margin: 0; }
+section.listing #search input[type=text] { width: 250px; margin-left: 15px; }
+
+section.listing { position: absolute; top: 220px; z-index: 2; color: #ddd; }
 section.listing ul { list-style: none; margin: 0; padding: 0;}
 section.listing ul li { border-bottom: solid 1px #eee; color: #3254a5; background-color: rgba(255, 255, 255, 0.5);
   padding: 0 10px 0 10px; height: 81px; position: relative; }
@@ -21,7 +21,7 @@ section.listing ul li p.r-name { position: absolute; top: -12px; left: 10%; font
 section.listing ul li p.r-desc { position: absolute; top: 16px; left: 10%; width: 50%; color: #3254a5; font-size: 0.9em; }
 section.listing ul li p.going { position: absolute; top: 6px; left: 60%; padding: 10px;
   border: solid 1px #999; border-radius: 4px; background-color: rgba(50, 84, 165, 0.75); color: rgba(245, 245, 245, 0.7); }
-section.listing ul li button { position: absolute; top: 24px; left: 90%; display: inline-block; width: 100px; height: 40px; }
+section.listing ul li button { position: absolute; top: 22px; left: 90%; display: inline-block; width: 100px; height: 40px; }
 
 video#bgvid { position: fixed; top: 50%; left: 50%;
     min-width: 100%; min-height: 100%; width: auto; height: auto;
@@ -78,11 +78,13 @@ nav ul li a:visited { color: white; }
 nav ul li a:hover { background-color: #6d0911; }
 
 /* Login Section */
-section.login { position: absolute; top: 160px; margin: 0 auto; width: 650px; padding-top: 15px; }
-section.login p { margin-top: 0.5em; font-size: 1em; }
+section.login { position: absolute; top: 160px; margin: 0 auto; width: 650px; padding-top: 15px; color: #ccc; }
+section.login p { margin-top: 0.5em; font-size: 1em; display: inline-block;}
+section.login a { color: #fff; padding-left: 10px; }
 
 /* Signup Section */
-section.signup { margin: 0 auto; width: 450px; padding-top: 15px; }
+section.signup { position: absolute; top: 120px; margin: 0 auto; width: 100%; padding-top: 15px; color: #ccc; }
+section.signup h1 { text-align: center; }
 section.signup form { margin: 0 auto; width: 300px; padding-top: 15px; }
 section.signup input[type=text] { margin-bottom: 5px; widht: 100%; }
 section.signup input[type=submit] { background-color: #51A7F9; margin-top: 15px; width: 215px; display: block; }

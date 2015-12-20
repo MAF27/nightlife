@@ -1,3 +1,9 @@
+TODO
+- Don't go if alone: Not updating
+- Keep location when logging in
+- Tooltip full names of goings
+
+
 Chrome ohne CORS:
 open -a Google\ Chrome --args --disable-web-security
 
