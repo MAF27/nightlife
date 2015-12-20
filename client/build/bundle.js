@@ -80,6 +80,7 @@ function ListingCtrl($scope, api, $location, $http, $rootScope) {
 					}
 				})
 				.then(function() {
+					restaurant.currentGoing = false; // Mark here to update view
 					return $http.get('/api/get-goings/' + restaurant.id);
 				})
 				.then($scope._setG);
@@ -88,7 +89,8 @@ function ListingCtrl($scope, api, $location, $http, $rootScope) {
 			var p = {
 				rest_id: restaurant.id,
 				user_id: $rootScope.user._id,
-				user_firstName: $rootScope.user.firstName
+				user_firstName: $rootScope.user.firstName,
+				user_lastName: $rootScope.user.lastName
 			};
 			return $http.post('/api/going/', p)
 				.then(function() {
@@ -102,10 +104,10 @@ function ListingCtrl($scope, api, $location, $http, $rootScope) {
 		if (goings.data.length > 0) {
 			// Find index of restaurant being added to
 			var el = util.getElement(goings.data[0].rest_id, $scope.restaurants);
+			var fCurrentGoing = false;
 			// Initialize array for people going
 			$scope.restaurants[el].goings = [];
 			// Find people going and insert them into array
-			var fCurrentGoing = false;
 			for (var i = 0; i < goings.data.length; i++) {
 				// Set flag if current user is going
 				if ($rootScope.user && goings.data[i].user_id === $rootScope.user._id) {
@@ -114,17 +116,19 @@ function ListingCtrl($scope, api, $location, $http, $rootScope) {
 					// Otherwise add name of others to array
 					$scope.restaurants[el].goings.push({
 						user_id: goings.data[i].user_id,
-						user_firstName: goings.data[i].user_firstName
+						user_firstName: goings.data[i].user_firstName,
+						user_lastName: goings.data[i].user_lastName
 					});
 				} // else
-				$scope.restaurants[el].currentGoing = fCurrentGoing;
 			} // for
+			$scope.restaurants[el].currentGoing = fCurrentGoing;
 		}
 	};
 
 	$scope.setGoings = function() {
 		if ($rootScope.user) {
 			for (var i = 0; i < $scope.restaurants.length; i++) {
+				// Have to do this on this level, _setG does not know which element if no qoings are found
 				$http.get('/api/get-goings/' + $scope.restaurants[i].id)
 					.then($scope._setG);
 			} // for
@@ -144,6 +148,15 @@ function ListingCtrl($scope, api, $location, $http, $rootScope) {
 		return util.parseGoings(goings, fCurrentGoing);
 	};
 
+	$scope.showAll = function(restaurant) {
+		var s = '';
+		var l = restaurant.goings.length;
+		for (var i = 0; i < l; i++) {
+			s += restaurant.goings[i].user_firstName + ' ' + restaurant.goings[i].user_lastName;
+			s += (i < (l - 1)) ? ', ' : '';
+		}
+		return s;
+	};
 }
 
 },{"../lib/util":7,"../services/mockbern.js":12,"angular":16,"node-yelp":188}],4:[function(require,module,exports){
@@ -170,41 +183,7 @@ app.config(['$routeProvider', function($routeProvider) {
 },{}],6:[function(require,module,exports){
 arguments[4][5][0].apply(exports,arguments)
 },{"dup":5}],7:[function(require,module,exports){
-var angular = require('angular');
-var yelp = require("node-yelp");
-
 module.exports = {
-	getRestForLoc: function(location) {
-		$injector = angular.injector(['ng']);
-		$q = $injector.get('$q');
-		return $q(function(resolve, reject) {
-			var client = yelp.createClient({
-				oauth: {
-					consumer_key: '6SZMMg4wFSxn1xo3wBP8AQ',
-					consumer_secret: 'BpZKq_rIQAL9upKUcAEpwsk0v9s',
-					token: 'dDmM1PHNtnwDS8Xw4ozmLydtLctCZYC9',
-					token_secret: 'nGdxlxllpfmaB5WrwGTI6qhUE3c',
-				},
-
-				// Optional settings:
-				httpClient: {
-					maxSockets: 25 // ~> Default is 10
-				}
-			});
-
-			console.log('* Client created, searching ...');
-			client.search({
-					terms: "restaurants",
-					location: location
-				})
-				.then(function(data) {
-					console.log(data.businesses);
-					resolve(data.businesses);
-				}, function(reason) {
-					reject('Error fetching Yelp data');
-				});
-		});
-	},
 	getElement: function(el, arr) {
 		for (var i = 0; i < arr.length; i++) {
 			if (arr[i].id === el)
@@ -248,7 +227,7 @@ module.exports = {
 	}
 };
 
-},{"angular":16,"node-yelp":188}],8:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 arguments[4][5][0].apply(exports,arguments)
 },{"dup":5}],9:[function(require,module,exports){
 var app = require('angular')

@@ -20,7 +20,8 @@ router.post('/going', function(req, res) {
 	var newGoing = new Going({
 		rest_id: req.body.rest_id,
 		user_id: req.body.user_id,
-		user_firstName: req.body.user_firstName
+		user_firstName: req.body.user_firstName,
+		user_lastName: req.body.user_lastName
 	});
 
 	newGoing.save(function(err, user) {

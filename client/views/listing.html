@@ -18,10 +18,8 @@
 				<!-- <img src="http://lorempixel.com/70/70/food" alt="Delicious" /> </p> -->
 			<p class="r-name">{{restaurant.name}}</p>
 			<p class="r-desc">{{restaurant.snippet_text}}</p>
-			<!-- <p class="r-desc">A great little restaurant with old world charm that will take your socks of, literally.</p> -->
-			<p class="going" ng-show="user && restaurant.goings">{{showGoings(restaurant, user);}}</p>
-			<!-- <p class="going" ng-show="user">Rahel, Vreni and 2 others are going</p> -->
-			<button ng-show="user" class="" ng-click="handleButton(restaurant, user);">{{goNotGo(restaurant);}}</button>
+			<p class="going" ng-show="user && showGoings(restaurant)" title="{{showAll(restaurant)}}">{{showGoings(restaurant);}}</p>
+			<button ng-show="user" class="" ng-click="handleButton(restaurant);">{{goNotGo(restaurant);}}</button>
 		</li>
 	</ul>
 
