@@ -26,25 +26,26 @@ var util = require('../lib/util');
 
 app.controller('ListingCtrl', ListingCtrl);
 
-ListingCtrl.$inject = ['$scope', 'api', '$location', '$http'];
+ListingCtrl.$inject = ['$scope', 'api', '$location', '$http', '$rootScope'];
 
-function ListingCtrl($scope, api, $location, $http) {
+function ListingCtrl($scope, api, $location, $http, $rootScope) {
 	var yelp = require("node-yelp");
 
 	$scope.restaurants = biz;
 	$http.get('/api/get-user/')
 		.then(function(user) {
-			$scope.user = user.data;
+			$rootScope.user = user.data;
+			// Populate people going, if logged in
+			$scope.setGoings();
 		});
 
-	$scope.handleButton = function(restaurant, user) {
-		// Trying to get user from call in HTML
+	$scope.handleButton = function(restaurant) {
 		// If current user is going, delete going
 		if (restaurant.currentGoing) {
 			return $http.delete('/api/going/', {
 					params: {
 						rest_id: restaurant.id,
-						user_id: user._id
+						user_id: $rootScope.user._id
 					}
 				})
 				.then(function() {
@@ -55,8 +56,8 @@ function ListingCtrl($scope, api, $location, $http) {
 			// Current user is not going, add going
 			var p = {
 				rest_id: restaurant.id,
-				user_id: user._id,
-				user_firstName: user.firstName
+				user_id: $rootScope.user._id,
+				user_firstName: $rootScope.user.firstName
 			};
 			return $http.post('/api/going/', p)
 				.then(function() {
@@ -66,43 +67,37 @@ function ListingCtrl($scope, api, $location, $http) {
 		} // else
 	};
 
-	$scope._setG = function(goings) {
+	$scope._setG = function(goings, user) {
 		if (goings.data.length > 0) {
 			// Find index of restaurant being added to
 			var el = util.getElement(goings.data[0].rest_id, biz);
 			// Initialize array for people going
 			biz[el].goings = [];
 			// Find people going and insert them into array
-			$http.get('/api/get-user/')
-				.then(function(user) {
-					var fCurrentGoing = false;
-					for (var i = 0; i < goings.data.length; i++) {
-						// Set flag if current user is going
-						if (user.data && goings.data[i].user_id === user.data._id) {
-							fCurrentGoing = true;
-						} else {
-							// Otherwise add name of others to array
-							biz[el].goings.push({
-								user_id: goings.data[i].user_id,
-								user_firstName: goings.data[i].user_firstName
-							});
-						} // else
-						biz[el].currentGoing = fCurrentGoing;
-					} // for
-				}); // get user
+			var fCurrentGoing = false;
+			for (var i = 0; i < goings.data.length; i++) {
+				// Set flag if current user is going
+				if ($rootScope.user && goings.data[i].user_id === $rootScope.user._id) {
+					fCurrentGoing = true;
+				} else {
+					// Otherwise add name of others to array
+					biz[el].goings.push({
+						user_id: goings.data[i].user_id,
+						user_firstName: goings.data[i].user_firstName
+					});
+				} // else
+				biz[el].currentGoing = fCurrentGoing;
+			} // for
 		}
 	};
 
 	$scope.setGoings = function() {
-		$http.get('/api/get-user/')
-			.then(function(user) {
-				if (user) {
-					for (var i = 0; i < biz.length; i++) {
-						$http.get('/api/get-goings/' + biz[i].id)
-							.then($scope._setG);
-					}
-				}
-			});
+		if ($rootScope.user) {
+			for (var i = 0; i < biz.length; i++) {
+				$http.get('/api/get-goings/' + biz[i].id)
+					.then($scope._setG);
+			}
+		}
 	};
 
 	$scope.goNotGo = function(restaurant) {
@@ -117,8 +112,6 @@ function ListingCtrl($scope, api, $location, $http) {
 		return util.parseGoings(goings, fCurrentGoing);
 	};
 
-	// Populate people going, if logged in
-	$scope.setGoings();
 
 	/*
 		var client = yelp.createClient({
@@ -181,14 +174,38 @@ module.exports = {
 		}
 	},
 	parseGoings: function(gArr, fCurrentGoing) {
+		// If anyone's going
 		if (gArr) {
 			var s = '';
-			for (var i = 0; i < gArr.length; i++) {
-				s += gArr[i].user_firstName + ', ';
+			// How many are going?
+			var count = gArr.length;
+
+			// Only me
+			if (count < 1 && fCurrentGoing) {
+				return 'You are going';
 			}
-			if (fCurrentGoing) s += ' and you ';
-			s += 'are going';
-			return s;
+			// One person, not me, is going
+			if (count === 1 && !fCurrentGoing) {
+				return gArr[0].user_firstName + ' is going';
+			}
+			// Two people, including me, are going
+			if (count === 1 && fCurrentGoing) {
+				return gArr[0].user_firstName + ' and you are going';
+			}
+			if (count === 2) {
+				if (fCurrentGoing) {
+					return gArr[0].user_firstName + ', ' + gArr[1].user_firstName + ' and you are going';
+				} else {
+					return gArr[0].user_firstName + ' and ' + gArr[1].user_firstName + ' are going';
+				}
+			}
+			// More people, build string
+			if (count > 2) {
+				s = gArr[0].user_firstName + ', ' + gArr[1].user_firstName;
+				s += fCurrentGoing ? ', you ' : '';
+				s += ' and ' + (count - 2) + ' more are going';
+				return s;
+			}
 		} else return '';
 	}
 };

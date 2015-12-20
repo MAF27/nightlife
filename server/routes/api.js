@@ -3,7 +3,6 @@ var router = express.Router();
 var GoingService = require('../services/going-service');
 var Going = require("../models/going");
 
-
 // All routes relative to host/api
 router.get('/get-user', function(req, res) {
 	// If we're logged in
@@ -35,15 +34,20 @@ router.post('/going', function(req, res) {
 });
 
 router.delete('/going', function(req, res) {
-	console.log('* DELETE: req.query', req.query);
-	Going.remove({ $and: [
-		{ rest_id: req.query.rest_id },
-		{ user_id: req.query.user_id }]
+	Going.remove({
+		$and: [
+			{
+				rest_id: req.query.rest_id
+			},
+			{
+				user_id: req.query.user_id
+			}]
 	}, function(err) {
 		if (err) {
 			res.status(500)
 				.json(err);
-		} else res.status(200).json('OK');
+		} else res.status(200)
+			.json('OK');
 	});
 });
 
@@ -54,14 +58,10 @@ router.get('/get-goings/:rest_id', function(req, res) {
 		if (err) {
 			console.log('Error /api/get-goings: ', err);
 		} else {
-			if (goings.length > 0) {
-				console.log('* /api/get-goings: FOUND ', goings);
-			}
 			return res.status(200)
 				.json(goings);
 		}
 	});
-
 });
 
 module.exports = router;

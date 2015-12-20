@@ -6,14 +6,38 @@ module.exports = {
 		}
 	},
 	parseGoings: function(gArr, fCurrentGoing) {
+		// If anyone's going
 		if (gArr) {
 			var s = '';
-			for (var i = 0; i < gArr.length; i++) {
-				s += gArr[i].user_firstName + ', ';
+			// How many are going?
+			var count = gArr.length;
+
+			// Only me
+			if (count < 1 && fCurrentGoing) {
+				return 'You are going';
 			}
-			if (fCurrentGoing) s += ' and you ';
-			s += 'are going';
-			return s;
+			// One person, not me, is going
+			if (count === 1 && !fCurrentGoing) {
+				return gArr[0].user_firstName + ' is going';
+			}
+			// Two people, including me, are going
+			if (count === 1 && fCurrentGoing) {
+				return gArr[0].user_firstName + ' and you are going';
+			}
+			if (count === 2) {
+				if (fCurrentGoing) {
+					return gArr[0].user_firstName + ', ' + gArr[1].user_firstName + ' and you are going';
+				} else {
+					return gArr[0].user_firstName + ' and ' + gArr[1].user_firstName + ' are going';
+				}
+			}
+			// More people, build string
+			if (count > 2) {
+				s = gArr[0].user_firstName + ', ' + gArr[1].user_firstName;
+				s += fCurrentGoing ? ', you ' : '';
+				s += ' and ' + (count - 2) + ' more are going';
+				return s;
+			}
 		} else return '';
 	}
 };

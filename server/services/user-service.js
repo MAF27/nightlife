@@ -12,7 +12,7 @@ exports.addUser = function(user, next) {
       lastName: user.lastName,
       username: user.username,
       password: hash,
-      twitter: { id: user.twitter.id }
+      twitter: { id: user.twitter ? user.twitter.id : null }
     });
 
     console.log('addUser: newUser: ', newUser);
