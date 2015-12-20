@@ -6,14 +6,14 @@
 	<ul ng-show="restaurants">
 		<li ng-repeat="restaurant in restaurants">
 			<p class="r-img">
-				<img src="{{restaurant.image_url}}" width="70px" height="70px" alt="Delicious" /> </p>
+				<img ng-src="{{restaurant.image_url}}" width="70px" height="70px" alt="Delicious" /> </p>
 				<!-- <img src="http://lorempixel.com/70/70/food" alt="Delicious" /> </p> -->
 			<p class="r-name">{{restaurant.name}}</p>
 			<p class="r-desc">{{restaurant.snippet_text}}</p>
 			<!-- <p class="r-desc">A great little restaurant with old world charm that will take your socks of, literally.</p> -->
-			<p class="going" ng-show="user && restaurant.goings">{{restaurant.goings}}</p>
+			<p class="going" ng-show="user && restaurant.goings">{{showGoings(restaurant);}}</p>
 			<!-- <p class="going" ng-show="user">Rahel, Vreni and 2 others are going</p> -->
-			<button ng-show="user" class="" ng-click="saveGoing(restaurant.id, user);">Go</button>
+			<button ng-show="user" class="" ng-click="handleButton(restaurant, user);">{{goNotGo(restaurant);}}</button>
 		</li>
 	</ul>
 

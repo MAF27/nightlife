@@ -11,20 +11,38 @@ function ListingCtrl($scope, api, $location, $http) {
 	var yelp = require("node-yelp");
 
 	$scope.restaurants = biz;
-	api.getUser()
-		.then(function(userobj) {
-			$scope.user = userobj.user;
+	$http.get('/api/get-user/')
+		.then(function(user) {
+			$scope.user = user.data;
 		});
 
-	$scope.saveGoing = function(rest_id, username) {
-		$http.post('/api/save-going/', {
-				rest_id: rest_id,
-				username: username
-			})
-			.then(function() {
-				return $http.get('/api/get-goings/' + rest_id)
-					.then($scope._setG);
-			});
+	$scope.handleButton = function(restaurant, user) {
+		// Trying to get user from call in HTML
+		// If current user is going, delete going
+		if (restaurant.currentGoing) {
+			return $http.delete('/api/going/', {
+					params: {
+						rest_id: restaurant.id,
+						user_id: user._id
+					}
+				})
+				.then(function() {
+					return $http.get('/api/get-goings/' + restaurant.id);
+				})
+				.then($scope._setG);
+		} else {
+			// Current user is not going, add going
+			var p = {
+				rest_id: restaurant.id,
+				user_id: user._id,
+				user_firstName: user.firstName
+			};
+			return $http.post('/api/going/', p)
+				.then(function() {
+					return $http.get('/api/get-goings/' + restaurant.id);
+				})
+				.then($scope._setG);
+		} // else
 	};
 
 	$scope._setG = function(goings) {
@@ -34,23 +52,48 @@ function ListingCtrl($scope, api, $location, $http) {
 			// Initialize array for people going
 			biz[el].goings = [];
 			// Find people going and insert them into array
-			for (var i = 0; i < goings.data.length; i++) {
-				biz[el].goings.push(goings.data[i].username);
-			}
+			$http.get('/api/get-user/')
+				.then(function(user) {
+					var fCurrentGoing = false;
+					for (var i = 0; i < goings.data.length; i++) {
+						// Set flag if current user is going
+						if (user.data && goings.data[i].user_id === user.data._id) {
+							fCurrentGoing = true;
+						} else {
+							// Otherwise add name of others to array
+							biz[el].goings.push({
+								user_id: goings.data[i].user_id,
+								user_firstName: goings.data[i].user_firstName
+							});
+						} // else
+						biz[el].currentGoing = fCurrentGoing;
+					} // for
+				}); // get user
 		}
 	};
 
 	$scope.setGoings = function() {
-		api.getUser()
-			.then(function(userobj) {
-				if (userobj.user) {
+		$http.get('/api/get-user/')
+			.then(function(user) {
+				if (user) {
 					for (var i = 0; i < biz.length; i++) {
 						$http.get('/api/get-goings/' + biz[i].id)
 							.then($scope._setG);
 					}
 				}
-
 			});
+	};
+
+	$scope.goNotGo = function(restaurant) {
+		if (restaurant.currentGoing) {
+			return "Don't Go";
+		} else return 'Go';
+	};
+
+	$scope.showGoings = function(restaurant) {
+		var goings = restaurant.goings;
+		var fCurrentGoing = restaurant.currentGoing ? true : false;
+		return util.parseGoings(goings, fCurrentGoing);
 	};
 
 	// Populate people going, if logged in

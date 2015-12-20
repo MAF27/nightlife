@@ -6,27 +6,44 @@ var Going = require("../models/going");
 
 // All routes relative to host/api
 router.get('/get-user', function(req, res) {
-	var vm = {
-		user: req.user ? req.user.firstName : null
-	};
-	res.status(200)
-		.json(vm);
+	// If we're logged in
+	if (req.user) {
+		// Return full user object, but without password hash
+		var user = req.user;
+		delete user.password; // TBD!!!!! This is not working
+		res.status(200)
+			.json(user);
+	} else res.status(200)
+		.json(null);
 });
 
-router.post('/save-going', function(req, res) {
+router.post('/going', function(req, res) {
 	var newGoing = new Going({
 		rest_id: req.body.rest_id,
-		username: req.body.username
+		user_id: req.body.user_id,
+		user_firstName: req.body.user_firstName
 	});
 
 	newGoing.save(function(err, user) {
 		if (err) {
-			console.log('api/save/going: Error adding user: ', err);
 			res.status(500)
 				.json(err);
 		}
 		res.status(200)
 			.json(user);
+	});
+});
+
+router.delete('/going', function(req, res) {
+	console.log('* DELETE: req.query', req.query);
+	Going.remove({ $and: [
+		{ rest_id: req.query.rest_id },
+		{ user_id: req.query.user_id }]
+	}, function(err) {
+		if (err) {
+			res.status(500)
+				.json(err);
+		} else res.status(200).json('OK');
 	});
 });
 

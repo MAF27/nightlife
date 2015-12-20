@@ -1,10 +1,14 @@
-	var angular = require('angular');
+var angular = require('angular');
 
-	var app = angular.module('nightlife', [
-			require('angular-route')
-		]);
+var app = angular.module('nightlife', [require('angular-route')])
+	.run(function($rootScope, $http) {
+		$http.get('/api/get-user')
+			.then(function(userobj) {
+				$rootScope.userobj = userobj;
+			});
+	});
 
-	require('./controllers');
-	require('./lib');
-	require('./models');
-	require('./services');
+require('./controllers');
+require('./lib');
+require('./models');
+require('./services');

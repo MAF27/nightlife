@@ -1,2 +1,15 @@
 Chrome ohne CORS:
 open -a Google\ Chrome --args --disable-web-security
+
+
+
+goings
+
+[
+ rest_id
+ user_id
+ user_firstName
+]
+
+
+ db.goings.find({$and: [{ "rest_id": "altes-tramdepot-bern" }, {"user_id": "56709545a8cd836832e0010c" }]})

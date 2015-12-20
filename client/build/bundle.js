@@ -1,14 +1,18 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-	var angular = require('angular');
+var angular = require('angular');
 
-	var app = angular.module('nightlife', [
-			require('angular-route')
-		]);
+var app = angular.module('nightlife', [require('angular-route')])
+	.run(function($rootScope, $http) {
+		$http.get('/api/get-user')
+			.then(function(userobj) {
+				$rootScope.userobj = userobj;
+			});
+	});
 
-	require('./controllers');
-	require('./lib');
-	require('./models');
-	require('./services');
+require('./controllers');
+require('./lib');
+require('./models');
+require('./services');
 
 },{"./controllers":2,"./lib":6,"./models":8,"./services":10,"angular":16,"angular-route":14}],2:[function(require,module,exports){
 require('./routing.js');
@@ -28,20 +32,38 @@ function ListingCtrl($scope, api, $location, $http) {
 	var yelp = require("node-yelp");
 
 	$scope.restaurants = biz;
-	api.getUser()
-		.then(function(userobj) {
-			$scope.user = userobj.user;
+	$http.get('/api/get-user/')
+		.then(function(user) {
+			$scope.user = user.data;
 		});
 
-	$scope.saveGoing = function(rest_id, username) {
-		$http.post('/api/save-going/', {
-				rest_id: rest_id,
-				username: username
-			})
-			.then(function() {
-				return $http.get('/api/get-goings/' + rest_id)
-					.then($scope._setG);
-			});
+	$scope.handleButton = function(restaurant, user) {
+		// Trying to get user from call in HTML
+		// If current user is going, delete going
+		if (restaurant.currentGoing) {
+			return $http.delete('/api/going/', {
+					params: {
+						rest_id: restaurant.id,
+						user_id: user._id
+					}
+				})
+				.then(function() {
+					return $http.get('/api/get-goings/' + restaurant.id);
+				})
+				.then($scope._setG);
+		} else {
+			// Current user is not going, add going
+			var p = {
+				rest_id: restaurant.id,
+				user_id: user._id,
+				user_firstName: user.firstName
+			};
+			return $http.post('/api/going/', p)
+				.then(function() {
+					return $http.get('/api/get-goings/' + restaurant.id);
+				})
+				.then($scope._setG);
+		} // else
 	};
 
 	$scope._setG = function(goings) {
@@ -51,23 +73,48 @@ function ListingCtrl($scope, api, $location, $http) {
 			// Initialize array for people going
 			biz[el].goings = [];
 			// Find people going and insert them into array
-			for (var i = 0; i < goings.data.length; i++) {
-				biz[el].goings.push(goings.data[i].username);
-			}
+			$http.get('/api/get-user/')
+				.then(function(user) {
+					var fCurrentGoing = false;
+					for (var i = 0; i < goings.data.length; i++) {
+						// Set flag if current user is going
+						if (user.data && goings.data[i].user_id === user.data._id) {
+							fCurrentGoing = true;
+						} else {
+							// Otherwise add name of others to array
+							biz[el].goings.push({
+								user_id: goings.data[i].user_id,
+								user_firstName: goings.data[i].user_firstName
+							});
+						} // else
+						biz[el].currentGoing = fCurrentGoing;
+					} // for
+				}); // get user
 		}
 	};
 
 	$scope.setGoings = function() {
-		api.getUser()
-			.then(function(userobj) {
-				if (userobj.user) {
+		$http.get('/api/get-user/')
+			.then(function(user) {
+				if (user) {
 					for (var i = 0; i < biz.length; i++) {
 						$http.get('/api/get-goings/' + biz[i].id)
 							.then($scope._setG);
 					}
 				}
-
 			});
+	};
+
+	$scope.goNotGo = function(restaurant) {
+		if (restaurant.currentGoing) {
+			return "Don't Go";
+		} else return 'Go';
+	};
+
+	$scope.showGoings = function(restaurant) {
+		var goings = restaurant.goings;
+		var fCurrentGoing = restaurant.currentGoing ? true : false;
+		return util.parseGoings(goings, fCurrentGoing);
 	};
 
 	// Populate people going, if logged in
@@ -127,12 +174,23 @@ app.config(['$routeProvider', function($routeProvider) {
 arguments[4][5][0].apply(exports,arguments)
 },{"dup":5}],7:[function(require,module,exports){
 module.exports = {
-	getElement: function (el, arr) {
-			for (var i = 0; i < arr.length; i++) {
-				if (arr[i].id === el)
-					return(i);
-			}
+	getElement: function(el, arr) {
+		for (var i = 0; i < arr.length; i++) {
+			if (arr[i].id === el)
+				return (i);
 		}
+	},
+	parseGoings: function(gArr, fCurrentGoing) {
+		if (gArr) {
+			var s = '';
+			for (var i = 0; i < gArr.length; i++) {
+				s += gArr[i].user_firstName + ', ';
+			}
+			if (fCurrentGoing) s += ' and you ';
+			s += 'are going';
+			return s;
+		} else return '';
+	}
 };
 
 },{}],8:[function(require,module,exports){

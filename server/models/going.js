@@ -4,7 +4,8 @@ var userService = require("../services/going-service");
 
 var goingSchema = new Schema({
    rest_id: String,
-   username: String,
+   user_id: String,
+   user_firstName: String,
    created: { type: Date, 'default': Date.now }
 });
 
