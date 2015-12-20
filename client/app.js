@@ -1,7 +1,3 @@
-// var angular = require('angular');
-// var app = angular.module('nightlife', ['ngResource']);
-(function() {
-
 	var angular = require('angular');
 	console.log('* Initializing angular');
 
@@ -13,5 +9,3 @@
 	require('./lib');
 	require('./models');
 	require('./services');
-
-}());

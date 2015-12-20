@@ -54,10 +54,10 @@ module.exports = function() {
 							'password': ' '  // cannot be empty, for validation
 						};
 						// save our user into the database
-						userService.addUser(newUser, function(err) {
+						userService.addUser(newUser, function(err, user) {
 							if (err)
 								throw err;
-							return done(null, newUser);
+							return done(null, user);
 						});
 					}
 				});
