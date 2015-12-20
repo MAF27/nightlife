@@ -1,37 +1,51 @@
 var app = require('angular')
 	.module('nightlife');
 var biz = require('../services/mockbern.js');
+var util = require('../lib/util');
 
 app.controller('ListingCtrl', ListingCtrl);
 
-ListingCtrl.$inject = ['$scope', 'api', '$location'];
+ListingCtrl.$inject = ['$scope', 'api', '$location', '$http'];
 
-function ListingCtrl($scope, api, $location) {
+function ListingCtrl($scope, api, $location, $http) {
 	var yelp = require("node-yelp");
-	var username;
 
 	$scope.restaurants = biz;
 	api.getUser()
-		.then(function(user) {
-			username = user.user;
-			$scope.user = username;
+		.then(function(userobj) {
+			$scope.user = userobj.user;
 		});
 
 	$scope.saveGoing = function(rest_id, username) {
-		console.log('* CLIENT SAVE GOING: ', rest_id, username);
-		api.saveGoing(rest_id, username);
+		$http.post('/api/save-going/', {
+				rest_id: rest_id,
+				username: username
+			})
+			.then(function() {
+				return $http.get('/api/get-goings/' + rest_id)
+					.then($scope._setG);
+			});
 	};
 
 	$scope._setG = function(goings) {
-		biz[0].goings = goings[0].username;
+		if (goings.data.length > 0) {
+			// Find index of restaurant being added to
+			var el = util.getElement(goings.data[0].rest_id, biz);
+			// Initialize array for people going
+			biz[el].goings = [];
+			// Find people going and insert them into array
+			for (var i = 0; i < goings.data.length; i++) {
+				biz[el].goings.push(goings.data[i].username);
+			}
+		}
 	};
 
 	$scope.setGoings = function() {
 		api.getUser()
-			.then(function(user) {
-				if (user.user) {
+			.then(function(userobj) {
+				if (userobj.user) {
 					for (var i = 0; i < biz.length; i++) {
-						api.getGoings(biz[i].id)
+						$http.get('/api/get-goings/' + biz[i].id)
 							.then($scope._setG);
 					}
 				}
@@ -41,7 +55,6 @@ function ListingCtrl($scope, api, $location) {
 
 	// Populate people going, if logged in
 	$scope.setGoings();
-	console.log('* Number of restaurants: ', biz.length);
 
 	/*
 		var client = yelp.createClient({

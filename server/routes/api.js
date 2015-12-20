@@ -1,35 +1,50 @@
 var express = require('express');
 var router = express.Router();
 var GoingService = require('../services/going-service');
+var Going = require("../models/going");
+
 
 // All routes relative to host/api
 router.get('/get-user', function(req, res) {
 	var vm = {
 		user: req.user ? req.user.firstName : null
 	};
-	res.status(200).json(vm);
+	res.status(200)
+		.json(vm);
 });
 
-router.post('/save-going', function(req, res, next) {
-	console.log('* SAVE GOING: req.body: ', req.body);
-	GoingService.addGoing(req.body.rest_id, req.body.username, function(err, going) {
+router.post('/save-going', function(req, res) {
+	var newGoing = new Going({
+		rest_id: req.body.rest_id,
+		username: req.body.username
+	});
+
+	newGoing.save(function(err, user) {
 		if (err) {
-			throw err;
-		} else {
-			return res.status(200).json(going);
+			console.log('api/save/going: Error adding user: ', err);
+			res.status(500)
+				.json(err);
 		}
+		res.status(200)
+			.json(user);
 	});
 });
 
-router.get('/get-goings/:rest_id', function(req, res, next) {
-	GoingService.getGoings(req.params.rest_id, function(err, goings) {
+router.get('/get-goings/:rest_id', function(req, res) {
+	Going.find({
+		rest_id: req.params.rest_id
+	}, function(err, goings) {
 		if (err) {
-			throw err;
+			console.log('Error /api/get-goings: ', err);
 		} else {
-			console.log('* GET GOINGS: For ID ' + req.params.rest_id + ': ' + goings);
-			return res.status(200).json(goings);
+			if (goings.length > 0) {
+				console.log('* /api/get-goings: FOUND ', goings);
+			}
+			return res.status(200)
+				.json(goings);
 		}
 	});
+
 });
 
 module.exports = router;
