@@ -1,7 +1,6 @@
 var app = require('angular')
 	.module('nightlife');
 var yelp = require("node-yelp");
-var biz = require('../services/mockbern.js');
 var util = require('../lib/util');
 
 app.controller('ListingCtrl', ListingCtrl);
@@ -85,7 +84,6 @@ function ListingCtrl($scope, api, $location, $http, $rootScope, $cookies) {
 				$http.get('/api/get-goings/' + $scope.restaurants[i].id)
 					.then($scope._setG);
 			} // for
-			$scope.$apply();
 		}
 	};
 
@@ -106,16 +104,21 @@ function ListingCtrl($scope, api, $location, $http, $rootScope, $cookies) {
 		if (restaurant.goings) {
 			var l = restaurant.goings.length;
 			for (var i = 0; i < l; i++) {
-				s += restaurant.goings[i].user_firstName + ' ' + restaurant.goings[i].user_lastName;
+				s += (restaurant.goings[i].user_firstName + ' ' + restaurant.goings[i].user_lastName).trim();
 				s += (i < (l - 1)) ? ', ' : '';
 			} // for
 		} // if goings
 		return s;
 	};
 
-	// $scope.restaurants = biz; // MOCKING
+	$scope.getImg = function (r) {
+		if (r.image_url) {
+			return r.image_url;
+		} else return 'http://lorempixel.com/70/70/nightlife';
+	};
+
 	// INIT
-	$http.get('/api/get-user/')
+	$http.get('/api/user/')
 		.then(function(user) {
 			$rootScope.user = user.data;
 		});

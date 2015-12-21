@@ -1,8 +1,8 @@
 module.exports = function() {
-	var passport = require("passport");
-	var passportLocal = require('passport-local');
+	var passport 				= require("passport");
+	var passportLocal 	= require('passport-local');
 	var passportTwitter = require('passport-twitter');
-	var bcrypt = require("bcrypt");
+	var bcrypt 					= require("bcrypt");
 
 	var userService = require("../services/user-service");
 
@@ -13,14 +13,14 @@ module.exports = function() {
 				return next(err);
 			}
 			if (!user) {
-				return next(null, null);
+				return next(null, false, { message: 'No such user.' });
 			}
 			bcrypt.compare(password, user.password, function(err, same) {
 				if (err) {
 					return next(err);
 				}
 				if (!same) {
-					return next(null, null);
+					return next(null, false, { message: 'Wrong password.' });
 				}
 				next(null, user);
 			});

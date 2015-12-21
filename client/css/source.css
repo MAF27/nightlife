@@ -6,12 +6,14 @@ section::after { content:''; display: block; clear: both; }
 
 /* Section: LISTING */
 /* Sub-Div Search */
-section.listing #search { position: absolute; top: -80px; z-index: 2; color: #ddd; width: 100%; }
+section.listing #search { position: absolute; top: -60px; z-index: 2; color: #ddd; width: 100%; }
 section.listing #search a { color: #777; }
 section.listing #search h3 { display: inline-block; margin: 0; }
 section.listing #search input[type=text] { width: 250px; margin-left: 15px; }
 
-section.listing { position: absolute; top: 220px; z-index: 2; color: #ddd; }
+section.listing { position: absolute; top: 200px; z-index: 2; color: #ddd; }
+section.listing h1 { margin-bottom: 5px; }
+section.listing h1 + p { margin-top: 5px; }
 section.listing h1 span { text-transform: capitalize; }
 section.listing ul { list-style: none; margin: 0; padding: 0;}
 section.listing ul li { border-bottom: solid 1px #eee; color: #3254a5; background-color: rgba(255, 255, 255, 0.5);
@@ -19,10 +21,10 @@ section.listing ul li { border-bottom: solid 1px #eee; color: #3254a5; backgroun
 section.listing ul li p { display: inline-block; color: white; }
 section.listing ul li p.r-img { padding: 5px; margin: 0; }
 section.listing ul li p.r-name { position: absolute; top: -12px; left: 10%; font-size: 1.2em; font-weight: 700; color: #3254a5; }
-section.listing ul li p.r-desc { position: absolute; top: 16px; left: 10%; width: 50%; color: #3254a5; font-size: 0.9em; }
-section.listing ul li p.going { position: absolute; top: 6px; left: 60%; padding: 10px;
+section.listing ul li p.r-desc { position: absolute; top: 16px; left: 10%; width: 48%; color: #3254a5; font-size: 0.9em; }
+section.listing ul li p.going { position: absolute; top: 6px; left: 59%; padding: 10px;
   border: solid 1px #999; border-radius: 4px; background-color: rgba(50, 84, 165, 0.75); color: rgba(245, 245, 245, 0.7); }
-section.listing ul li button { position: absolute; top: 22px; left: 90%; display: inline-block; width: 100px; height: 40px; }
+section.listing ul li button { position: absolute; top: 22px; left: 89%; display: inline-block; width: 100px; height: 40px; }
 
 video#bgvid { position: fixed; top: 50%; left: 50%;
     min-width: 100%; min-height: 100%; width: auto; height: auto;
@@ -77,9 +79,10 @@ nav ul li a:visited { color: white; }
 nav ul li a:hover { background-color: #6d0911; }
 
 /* Login Section */
-section.login { position: absolute; top: 160px; margin: 0 auto; width: 650px; padding-top: 15px; color: #ccc; }
+section.login { position: absolute; top: 160px; margin: 0 auto; width: 650px; padding-top: 15px; color: #fff; }
 section.login p { margin-top: 0.5em; font-size: 1em; display: inline-block;}
 section.login a { color: #fff; padding-left: 10px; }
+section.login div.error { color: #FF4136; background-color: rgba(0, 0, 0, 0.4); margin-top: 5px; padding: 7px; width: 440px; }
 
 /* Signup Section */
 section.signup { position: absolute; top: 120px; margin: 0 auto; width: 100%; padding-top: 15px; color: #ccc; }

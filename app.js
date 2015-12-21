@@ -1,14 +1,13 @@
 // External Dependencies
 var express 			= require('express');
 var exprSession 	= require('express-session');
-var cors 					= require('express-cors');
 var logger 				= require('morgan');
 var http 					= require('http');
 var bodyParser 		= require('body-parser');
 var cookieParser 	= require('cookie-parser');
 var	passport 			= require('passport');
 var mongoose 			= require('mongoose');
-var http 					= require('http');
+var flash 				= require('connect-flash');
 // Internal Dependencies
 var passConf 			= require(__dirname + "/server/auth/passport-config");
 var routes 				= require('./server/routes/index');
@@ -16,11 +15,6 @@ var users 				= require('./server/routes/users');
 var api 					= require('./server/routes/api');
 
 var	app = express();
-app.use(cors({
-    allowedOrigins: [
-        'twitter.com', 'yelp.co.uk'
-    ]
-}));
 
 // Handlebars view setup
 app.set('views', __dirname + '/server/views');
@@ -30,12 +24,21 @@ app.set('view engine', 'hbs');
 mongoose.connect('mongodb://adminmaf:mafmaf@ds027505.mongolab.com:27505/nightlife');
 
 // URL parsing, express session
-app.use(cors());
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(exprSession({ secret: 'keyboard catandmouse', resave: true, saveUninitialized: true }));
+app.use(flash());
+// Make flash messages available automatically
+app.use(function setFlash(req, res, next) {
+	  res.locals.flash = {
+	    notice: req.flash('notice'),
+	  	error: req.flash('error')
+	  };
+	  next();
+	}
+);
 
 // Configure Passport Authentication
 passConf();

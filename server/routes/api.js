@@ -1,16 +1,21 @@
-var express = require('express');
-var router = express.Router();
-var GoingService = require('../services/going-service');
-var YelpService = require('../services/yelp-service');
-var Going = require("../models/going");
+var express 			= require('express');
+var router 				= express.Router();
+
+var GoingService 	= require('../services/going-service');
+var YelpService 	= require('../services/yelp-service');
+var Going 				= require("../models/going");
 
 // All routes relative to host/api
-router.get('/get-user', function(req, res) {
+router.get('/user', function(req, res) {
 	// If we're logged in
 	if (req.user) {
 		// Return full user object, but without password hash
-		var user = req.user;
-		delete user.password; // TBD!!!!! This is not working
+		var user = {
+			_id: req.user._id,
+			firstName: req.user.firstName,
+			lastName: req.user.lastName,
+			username: req.user.username
+		};
 		res.status(200)
 			.json(user);
 	} else res.status(200)

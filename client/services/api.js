@@ -13,7 +13,7 @@ function apiFactory($http) {
 	};
 
 	function getUser() {
-		return $http.get('/api/get-user')
+		return $http.get('/api/user')
 			.then(function(response) {
 					return response.data;
 				},
@@ -23,7 +23,7 @@ function apiFactory($http) {
 	}
 
 	function saveGoing(rest_id, username) {
-		return $http.post('/api/save-going', { rest_id: rest_id, username: username } )
+		return $http.post('/api/going', { rest_id: rest_id, username: username } )
 			.then(function(response) {
 					return response.data;
 				},
@@ -33,7 +33,6 @@ function apiFactory($http) {
 	}
 
 	function getGoings(rest_id) {
-		console.log('* Angular API: URL: ', '/api/get-goings/' + rest_id);
 		return $http.get('/api/get-goings/' + rest_id)
 			.then(function(response) {
 					return response.data;

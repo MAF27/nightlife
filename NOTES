@@ -5,10 +5,11 @@ OK - Tooltip full names of goings
 OK - CORS Issue: Need to call from back end
 OK - Title case location: CSS
 OK - Sort bars by name
-- Substitute lorempixel for missing images
+OK - Substitute lorempixel for missing images
 OK - iPad submit: Was a CORS issue
-- Yelp credit
-- Delete password field
+OK - Yelp credit
+OK - Delete password field: SAME PROBLEM AS BEFORE: Can't assign javascript object by value
+OK - Login fail crashes: Finally fixed flash messaging
 
-Chrome ohne CORS:
+Chrome without CORS:
 open -a Google\ Chrome --args --disable-web-security

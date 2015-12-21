@@ -7,13 +7,13 @@
 
 <div ng-show="restaurants">
 	<h1>Bars in <span>{{location}}</span></h1>
-	<p ng-hide="user">Authenticate to see who's going where and add your voice.</p>
+	<p ng-hide="user">Log in to see who's going where and add your voice.</p>
 
 	<div ng-hide="restaurants">Loading ...</div>
 	<ul ng-show="restaurants">
 		<li ng-repeat="restaurant in restaurants | orderBy: 'name'">
 			<p class="r-img">
-				<img ng-src="{{restaurant.image_url}}" width="70px" height="70px" alt="Delicious" /> </p>
+				<img ng-src="{{getImg(restaurant);}}" width="70px" height="70px" alt="Fabulous {{restaurant.name}}" /> </p>
 			<p class="r-name">{{restaurant.name}}</p>
 			<p class="r-desc">{{restaurant.snippet_text}}</p>
 			<p class="going" ng-show="user && showGoings(restaurant)" title="{{showAll(restaurant)}}">{{showGoings(restaurant);}}</p>

@@ -1,15 +1,12 @@
-var express = require('express');
-var passport = require("passport");
-var router = express.Router();
+var express 	= require('express');
+var passport 	= require("passport");
+var router 		= express.Router();
 
 var UserService = require("../services/user-service");
-var restrict = require("../auth/restrict");
+var restrict 		= require("../auth/restrict");
 
 router.get('/signup', function(req, res, next) {
-	var vm = {
-		title: 'Register as a new user'
-	};
-	res.render('signup', vm);
+	res.render('signup');
 });
 
 router.post('/signup', function(req, res, next) {
@@ -34,16 +31,14 @@ router.post('/signup', function(req, res, next) {
 });
 
 router.get('/login', function(req, res, next) {
-	var vm = {
-		title: 'Please log in'
-	};
-	res.render('login', vm);
+	console.log('* GET LOGIN: ', res.locals.flash);
+	res.render('login');
 });
 
 router.post('/login', passport.authenticate('local', {
 	failureRedirect: '/users/login',
 	successRedirect: '/',
-	failureFlash: 'Invalid credentials.'
+	failureFlash: true
 }));
 
 router.get('/logout', function(req, res, next) {
