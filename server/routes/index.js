@@ -9,7 +9,6 @@ router.get('/', function(req, res) {
 
 router.get('/success', restrict, function(req, res, next) {
 	var vm = { user: req.user.firstName };
-	console.log('* Routing to Success, packing user: ', req.user);
 	res.render('success', vm);
 });
 

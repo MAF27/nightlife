@@ -15,9 +15,7 @@ exports.addUser = function(user, next) {
       twitter: { id: user.twitter ? user.twitter.id : null }
     });
 
-    console.log('addUser: newUser: ', newUser);
     newUser.save(function(err, user) {
-      console.log('* After adding user: err: ', err);
       if (err) {
         return next(err, null);
       }

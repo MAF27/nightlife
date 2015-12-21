@@ -31,7 +31,6 @@ router.post('/signup', function(req, res, next) {
 });
 
 router.get('/login', function(req, res, next) {
-	console.log('* GET LOGIN: ', res.locals.flash);
 	res.render('login');
 });
 
