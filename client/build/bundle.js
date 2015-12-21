@@ -33,30 +33,15 @@ function ListingCtrl($scope, api, $location, $http, $rootScope, $cookies) {
 
 	$scope.submitSearch = function() {
 		$cookies.put('location', $scope.location);
-		var client = yelp.createClient({
-			oauth: {
-				consumer_key: '6SZMMg4wFSxn1xo3wBP8AQ',
-				consumer_secret: 'BpZKq_rIQAL9upKUcAEpwsk0v9s',
-				token: 'dDmM1PHNtnwDS8Xw4ozmLydtLctCZYC9',
-				token_secret: 'nGdxlxllpfmaB5WrwGTI6qhUE3c',
-			},
-
-			// Optional settings:
-			httpClient: {
-				maxSockets: 25 // ~> Default is 10
-			}
+		$http.get('/api/yelp/' + $scope.location)
+		.then(function(businesses) {
+			$scope.restaurants = businesses.data;
+			// Populate people going, if logged in
+			$scope.setGoings();
+		})
+		.catch(function(err) {
+			console.error(err);
 		});
-
-		client.search({
-				terms: "bars",
-				location: $scope.location
-			})
-			.then(function(data) {
-				$scope.restaurants = data.businesses;
-				$scope.$apply();
-				// Populate people going, if logged in
-				$scope.setGoings();
-			});
 	};
 
 	$scope.handleButton = function(restaurant) {

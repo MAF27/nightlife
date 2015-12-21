@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var GoingService = require('../services/going-service');
+var YelpService = require('../services/yelp-service');
 var Going = require("../models/going");
 
 // All routes relative to host/api
@@ -62,6 +63,13 @@ router.get('/get-goings/:rest_id', function(req, res) {
 			return res.status(200)
 				.json(goings);
 		}
+	});
+});
+
+router.get('/yelp/:location', function(req, res) {
+	var businesses = YelpService(req.params.location, 'bars', function(businesses){
+		console.log('* API YELP: Number of biz: %d', businesses.length);
+		res.status(200).json(businesses);
 	});
 });
 

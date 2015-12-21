@@ -1,7 +1,7 @@
 // External Dependencies
 var express 			= require('express');
 var exprSession 	= require('express-session');
-var cors 					= require('cors');
+var cors 					= require('express-cors');
 var logger 				= require('morgan');
 var http 					= require('http');
 var bodyParser 		= require('body-parser');
@@ -16,6 +16,11 @@ var users 				= require('./server/routes/users');
 var api 					= require('./server/routes/api');
 
 var	app = express();
+app.use(cors({
+    allowedOrigins: [
+        'twitter.com', 'yelp.co.uk'
+    ]
+}));
 
 // Handlebars view setup
 app.set('views', __dirname + '/server/views');

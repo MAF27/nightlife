@@ -32,6 +32,7 @@
     "cookie-parser": "^1.4.0",
     "cors": "^2.7.1",
     "express": "^4.13.3",
+    "express-cors": "0.0.3",
     "express-session": "^1.12.1",
     "hbs": "^4.0.0",
     "mongoose": "^4.3.1",
@@ -39,6 +40,7 @@
     "node-yelp": "0.0.3",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
-    "passport-twitter": "^1.0.3"
+    "passport-twitter": "^1.0.3",
+    "yelp": "^1.0.1"
   }
 }

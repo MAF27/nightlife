@@ -1,23 +1,14 @@
 TODO
 OK - Don't go if alone: Not updating
-- Keep location when logging in
+OK - Keep location when logging in
 OK - Tooltip full names of goings
-- Title case location
+OK - CORS Issue: Need to call from back end
+OK - Title case location: CSS
+OK - Sort bars by name
+- Substitute lorempixel for missing images
 - iPad submit
 - Yelp credit
+- Delete password field
 
 Chrome ohne CORS:
 open -a Google\ Chrome --args --disable-web-security
-
-
-
-goings
-
-[
- rest_id
- user_id
- user_firstName
-]
-
-
- db.goings.find({$and: [{ "rest_id": "altes-tramdepot-bern" }, {"user_id": "56709545a8cd836832e0010c" }]})
