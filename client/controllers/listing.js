@@ -6,17 +6,12 @@ var util = require('../lib/util');
 
 app.controller('ListingCtrl', ListingCtrl);
 
-ListingCtrl.$inject = ['$scope', 'api', '$location', '$http', '$rootScope'];
+ListingCtrl.$inject = ['$scope', 'api', '$location', '$http', '$rootScope', '$cookies'];
 
-function ListingCtrl($scope, api, $location, $http, $rootScope) {
-
-	// $scope.restaurants = biz; // MOCKING
-	$http.get('/api/get-user/')
-		.then(function(user) {
-			$rootScope.user = user.data;
-		});
+function ListingCtrl($scope, api, $location, $http, $rootScope, $cookies) {
 
 	$scope.submitSearch = function() {
+		$cookies.put('location', $scope.location);
 		var client = yelp.createClient({
 			oauth: {
 				consumer_key: '6SZMMg4wFSxn1xo3wBP8AQ',
@@ -31,22 +26,16 @@ function ListingCtrl($scope, api, $location, $http, $rootScope) {
 			}
 		});
 
-		console.log('* Client created, searching ...');
 		client.search({
 				terms: "bars",
 				location: $scope.location
 			})
 			.then(function(data) {
-				console.log(data.businesses);
 				$scope.restaurants = data.businesses;
 				$scope.$apply();
 				// Populate people going, if logged in
 				$scope.setGoings();
 			});
-		// util.getRestForLoc($scope.location)
-		// 	.then(function(r) {
-		// 		$rootScope.restaurants = r;
-		// 	});
 	};
 
 	$scope.handleButton = function(restaurant) {
@@ -129,11 +118,22 @@ function ListingCtrl($scope, api, $location, $http, $rootScope) {
 
 	$scope.showAll = function(restaurant) {
 		var s = '';
-		var l = restaurant.goings.length;
-		for (var i = 0; i < l; i++) {
-			s += restaurant.goings[i].user_firstName + ' ' + restaurant.goings[i].user_lastName;
-			s += (i < (l - 1)) ? ', ' : '';
-		}
+		if (restaurant.goings) {
+			var l = restaurant.goings.length;
+			for (var i = 0; i < l; i++) {
+				s += restaurant.goings[i].user_firstName + ' ' + restaurant.goings[i].user_lastName;
+				s += (i < (l - 1)) ? ', ' : '';
+			} // for
+		} // if goings
 		return s;
 	};
+
+	// $scope.restaurants = biz; // MOCKING
+	// INIT
+	$http.get('/api/get-user/')
+		.then(function(user) {
+			$rootScope.user = user.data;
+		});
+	$scope.location = $cookies.get('location');
+	if ($scope.location) $scope.submitSearch();
 }

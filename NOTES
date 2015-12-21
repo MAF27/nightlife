@@ -1,8 +1,10 @@
 TODO
 OK - Don't go if alone: Not updating
 - Keep location when logging in
-- Tooltip full names of goings
-
+OK - Tooltip full names of goings
+- Title case location
+- iPad submit
+- Yelp credit
 
 Chrome ohne CORS:
 open -a Google\ Chrome --args --disable-web-security

@@ -3,7 +3,6 @@
 		<h3>Where are you at?</h3>
 		<input type="text" placeholder="Enter your location ..." autofocus="true" ng-model="location">
 	</form>
-	<!-- <p>Restaus: {{restaurants.length}}, Location: {{location}}</p> -->
 </div>
 
 <div ng-show="restaurants">
@@ -15,7 +14,6 @@
 		<li ng-repeat="restaurant in restaurants">
 			<p class="r-img">
 				<img ng-src="{{restaurant.image_url}}" width="70px" height="70px" alt="Delicious" /> </p>
-				<!-- <img src="http://lorempixel.com/70/70/food" alt="Delicious" /> </p> -->
 			<p class="r-name">{{restaurant.name}}</p>
 			<p class="r-desc">{{restaurant.snippet_text}}</p>
 			<p class="going" ng-show="user && showGoings(restaurant)" title="{{showAll(restaurant)}}">{{showGoings(restaurant);}}</p>
